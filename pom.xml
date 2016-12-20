@@ -7,6 +7,24 @@
 	<artifactId>test-data-generator</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<scm>
+		<connection>scm:git:git://github.com/javacook/test-data-generator.git</connection>
+		<developerConnection>scm:git:git@github.com:javacook/test-data-generator.git</developerConnection>
+		<url>https://github.com/javacook/test-data-generator</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<email>javacook@gmx.de</email>
+			<name>Jörg Vollmer</name>
+			<url>https://github.com/javacook</url>
+			<id>javacook</id>
+		</developer>
+	</developers>
 
 	<build>
 		<plugins>
@@ -47,5 +65,19 @@
 		</dependency>
 
 	</dependencies>
+
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>Artifactory</id>
+			<url>http://www.clean-coder.de:8080/artifactory/libs-snapshot-local</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+		<repository>
+			<id>Artifactory</id>
+			<url>http://www.clean-coder.de:8080/artifactory/libs-release-local</url>
+		</repository>
+	</distributionManagement>
+
 
 </project>
