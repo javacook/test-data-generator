@@ -84,4 +84,8 @@ public class TestDataGenerator {
         }};
     }
 
+    public boolean isEmpty(int sheet, CoordinateInterface coord) {
+        return excelAccessor.isEmpty(sheet, coord);
+    }
+
 }
