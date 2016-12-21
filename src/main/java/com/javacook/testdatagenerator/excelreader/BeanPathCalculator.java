@@ -4,8 +4,8 @@ import com.javacook.coordinate.Coordinate;
 import com.javacook.coordinate.CoordinateInterface;
 import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
-import com.javacook.testdatagenerator.model.BeanPath;
-import com.javacook.testdatagenerator.model.BeanPathElement;
+import com.javacook.testdatagenerator.testdatamodel.BeanPath;
+import com.javacook.testdatagenerator.testdatamodel.BeanPathElement;
 import org.apache.commons.lang3.Validate;
 
 import java.util.*;

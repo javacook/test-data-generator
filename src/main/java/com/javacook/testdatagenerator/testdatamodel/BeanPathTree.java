@@ -1,4 +1,4 @@
-package com.javacook.testdatagenerator.model;
+package com.javacook.testdatagenerator.testdatamodel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

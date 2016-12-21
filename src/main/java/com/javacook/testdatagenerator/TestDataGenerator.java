@@ -3,7 +3,7 @@ package com.javacook.testdatagenerator;
 import com.javacook.coordinate.CoordinateInterface;
 import com.javacook.testdatagenerator.excelreader.BeanPathCalculator;
 import com.javacook.testdatagenerator.excelreader.MyExcelAccessor;
-import com.javacook.testdatagenerator.model.BeanPath;
+import com.javacook.testdatagenerator.testdatamodel.BeanPath;
 import java.io.File;
 
 import java.io.IOException;
