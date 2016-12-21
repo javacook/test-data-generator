@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>com.javacook</groupId>
 			<artifactId>easy-excel-access</artifactId>
-			<version>0.3</version>
+			<version>0.4</version>
 		</dependency>
 
 		<dependency>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.javacook</groupId>
 			<artifactId>parfehh-util</artifactId>
-			<version>0.2</version>
+			<version>0.3</version>
 		</dependency>
 
 	</dependencies>
