@@ -4,8 +4,8 @@ import com.javacook.coordinate.CoordinateInterface;
 import com.javacook.testdatagenerator.excelreader.BeanPathCalculator;
 import com.javacook.testdatagenerator.excelreader.MyExcelAccessor;
 import com.javacook.testdatagenerator.testdatamodel.BeanPath;
-import java.io.File;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -86,6 +86,14 @@ public class TestDataGenerator {
 
     public boolean isEmpty(int sheet, CoordinateInterface coord) {
         return excelAccessor.isEmpty(sheet, coord);
+    }
+
+    public int noRows(int sheet) {
+        return excelAccessor.noRows(sheet);
+    }
+
+    public int noCols(int sheet) {
+        return excelAccessor.noCols(sheet);
     }
 
 }
