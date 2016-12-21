@@ -15,36 +15,42 @@ public class TestDataGenerator {
 
     final BeanPathCalculator beanPathCalculator;
     final MyExcelAccessor excelAccessor;
-    final Integer headerStartIndex;
-    final Integer oidIndex;
+    final Integer oidColumn;
 
 
-    protected TestDataGenerator(MyExcelAccessor excelAccessor, Integer headerStartIndex, Integer oidIndex) throws IOException {
-        this.headerStartIndex = (headerStartIndex == null)? 0 : headerStartIndex;
-        this.oidIndex = oidIndex;
+    /**
+     * @param excelAccessor
+     * @param headerStartColumn starting with 1
+     * @param oidColumn starting with 1
+     * @throws IOException
+     */
+    protected TestDataGenerator(MyExcelAccessor excelAccessor, Integer headerStartColumn, Integer oidColumn) throws IOException {
+        this.oidColumn = oidColumn;
         this.excelAccessor = excelAccessor;
         beanPathCalculator = new BeanPathCalculator(
-                excelAccessor, headerStartIndex, (oidIndex == null)? 0 : oidIndex);
+                excelAccessor,
+                (headerStartColumn == null)? 0 : headerStartColumn-1,
+                (oidColumn == null)? 0 : oidColumn-1);
     }
 
-    public TestDataGenerator(String excelResource, int headerStartIndex, int oidIndex) throws IOException {
-        this(new MyExcelAccessor(excelResource), headerStartIndex, oidIndex);
+    public TestDataGenerator(String excelResource, int headerStartColumn, int oidColumn) throws IOException {
+        this(new MyExcelAccessor(excelResource), headerStartColumn, oidColumn);
     }
 
-    public TestDataGenerator(String excelResource, int headerStartIndex) throws IOException {
-        this(new MyExcelAccessor(excelResource), headerStartIndex, null);
+    public TestDataGenerator(String excelResource, int headerStartColumn) throws IOException {
+        this(new MyExcelAccessor(excelResource), headerStartColumn, null);
     }
 
     public TestDataGenerator(String excelResource) throws IOException {
         this(new MyExcelAccessor(excelResource), null, null);
     }
 
-    public TestDataGenerator(File excelFile, int headerStartIndex, int oidIndex) throws IOException {
-        this(new MyExcelAccessor(excelFile), headerStartIndex, oidIndex);
+    public TestDataGenerator(File excelFile, int headerStartColumn, int oidColumn) throws IOException {
+        this(new MyExcelAccessor(excelFile), headerStartColumn, oidColumn);
     }
 
-    public TestDataGenerator(File excelFile, int headerStartIndex) throws IOException {
-        this(new MyExcelAccessor(excelFile), headerStartIndex, null);
+    public TestDataGenerator(File excelFile, int headerStartColumn) throws IOException {
+        this(new MyExcelAccessor(excelFile), headerStartColumn, null);
     }
 
     public TestDataGenerator(File excelFile) throws IOException {
@@ -71,7 +77,7 @@ public class TestDataGenerator {
     public <T> ExcelCell readCell(int sheet, CoordinateInterface coord) {
         return new ExcelCell() {{
             beanPath = beanPathCalculator.beanPath(sheet, coord);
-            if (oidIndex != null) oid = beanPathCalculator.oid(sheet, coord);
+            if (oidColumn != null) oid = beanPathCalculator.oid(sheet, coord);
             content = excelAccessor.readCell(sheet, coord);
         }};
     }
@@ -79,7 +85,7 @@ public class TestDataGenerator {
     public <T> ExcelCell readCell(int sheet, CoordinateInterface coord, Class<T> clazz) {
         return new ExcelCell() {{
             beanPath = beanPathCalculator.beanPath(sheet, coord);
-            if (oidIndex != null) oid = beanPathCalculator.oid(sheet, coord);
+            if (oidColumn != null) oid = beanPathCalculator.oid(sheet, coord);
             content = excelAccessor.readCell(sheet, coord, clazz);
         }};
     }
