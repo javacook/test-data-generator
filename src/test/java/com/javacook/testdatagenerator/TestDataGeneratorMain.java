@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class TestDataGeneratorMain {
 
     public static void main(String[] args) throws IOException {
-        TestDataGenerator testDataGenerator = new TestDataGenerator("TestdataForTest.xls", 2, 0);
+        TestDataGenerator testDataGenerator = new TestDataGenerator("TestdataForTest.xls", 3, 1);
         final ExcelCell cell = testDataGenerator.readCell(0, new ExcelCoordinate("C", 2));
         System.out.println(cell);
     }
