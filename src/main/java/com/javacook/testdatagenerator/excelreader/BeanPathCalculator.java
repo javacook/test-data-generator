@@ -20,10 +20,10 @@ public class BeanPathCalculator {
     private final int oidIndex;
 
     /**
-     * Konstruktor
+     * Constructor
      * @param excelAccessor
-     * @param headerStartIndex
-     * @param oidIndex
+     * @param headerStartIndex staring with 0
+     * @param oidIndex starting with 0
      */
     public BeanPathCalculator(MyExcelAccessor excelAccessor, int headerStartIndex, int oidIndex) {
         Validate.isTrue(excelAccessor != null, "Argument 'excelAccessor' is null.");
@@ -35,7 +35,11 @@ public class BeanPathCalculator {
         this.oidIndex = oidIndex;
     }
 
-
+    /**
+     * @param sheet the Excel sheet no starting with 0
+     * @param coord
+     * @return The OID taken from the OID column for the excel element at <code>coord</code>
+     */
     public Object oid(int sheet, CoordinateInterface coord) {
         Validate.isTrue(sheet >= 0, "Argument 'sheet' must be non-negative.");
         Validate.isTrue(coord != null, "Argument 'coord' is null.");
