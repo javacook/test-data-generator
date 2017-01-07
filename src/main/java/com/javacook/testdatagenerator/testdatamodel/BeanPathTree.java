@@ -281,69 +281,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                 }
             }
         }
-
-        System.out.println("Elements: " + elements);
-
         return jsonObject;
-
-
-
-//        for (Iterator<BeanPathElement> iter = subtreeRoots().iterator(); iter.hasNext();) {
-//            BeanPathElement subTreeRoot = iter.next();
-//            final BeanPathTree subtree = subtree(subTreeRoot);
-//            if (subtree.isEmpty()) {
-//                final Object value = get(new BeanPath(subTreeRoot));
-//                if (subTreeRoot.arrayIndex == null) {
-//                    elements.put(subTreeRoot.attrName, value);
-//                }
-//                else {
-//                    if (elements.get(subTreeRoot.attrName) == null) {
-//                        final ArrayList<Object> arrayElements = new ArrayList<>();
-//                        elements.put(subTreeRoot.attrName, arrayElements);
-//                    }
-//                    final List arrayElements = (List)elements.get(subTreeRoot.attrName);
-//                    arrayElements.add(value);
-//                }
-                
-//                if (subTreeRoot.arrayIndex != null) {
-//                    final String attrName = subTreeRoot.attrName;
-//                    final JSONArray jsonArray = new JSONArray();
-//                    do {
-//                        final Object value = get(new BeanPath(subTreeRoot));
-//                        jsonArray.add(subTreeRoot.arrayIndex, value);
-//                        if (!iter.hasNext()) break;
-//                        subTreeRoot = iter.next();
-//                    }
-//                    while (subTreeRoot.arrayIndex != null && subTreeRoot.attrName.equals(attrName));
-//                    result.put(attrName, jsonArray);
-//                }
-//                else {
-//                    final Object value = get(new BeanPath(subTreeRoot));
-//                    result.put(subTreeRoot.attrName, value);
-//                }
-
-//
-//            }
-//            else {
-//                result.put(subTreeRoot.attrName, subtree.toJSON());
-//            }
-//        }// for
-
-//        for (String key : elements.keySet()) {
-//            final Object value = elements.get(key);
-//            if (value instanceof List) {
-//                List arrayElements = (List)value;
-//                final JSONArray jsonArray = new JSONArray();
-//                for (Object arrayElement : arrayElements) {
-//                    jsonArray.add(arrayElement);
-//                }
-//                result.put(key, jsonArray);
-//            }
-//            else {
-//                result.put(key, value);
-//            }
-//        }
-//        return result;
     }
 
 
@@ -354,14 +292,14 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
         bpt.put("vorname[2].erst", "Armin");
         bpt.put("vorname[3].erst", "Claus");
         bpt.nil("kunde.name[0]");
-//        bpt.nil("kunde.name[1]");
-//        bpt.nil("kunde.name[2]");
+        bpt.nil("kunde.name[1]");
+        bpt.nil("kunde.name[2]");
         bpt.put("firma.adresse.plz", 58730);
         bpt.put("firma.adresse.ort", "Fröndenberg");
         bpt.put("firma.adresse.strasse", "Brückenstr.");
-//        bpt.put("temp[0]", 123);
-//        bpt.put("temp[1]", 456);
-//        bpt.put("temp[2]", 789);
+        bpt.put("temp[0]", 123);
+        bpt.put("temp[1]", 456);
+        bpt.put("temp[2]", 789);
 
 
 //        final NavigableMap<BeanPath, Object> map = bpt.subMap(
