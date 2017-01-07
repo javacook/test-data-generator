@@ -11,16 +11,27 @@ public class BeanPath implements Comparable<BeanPath> {
 
     final List<BeanPathElement> beanPathElementList = new ArrayList<>();
 
+    /**
+     * Default constructor
+     */
     public BeanPath() {
     }
 
     /**
-     * Copy-Konstruktor
+     * Constructor adding one Element initially
+     */
+    public BeanPath(BeanPathElement beanPathElement) {
+        addBeanPathElement(beanPathElement);
+    }
+
+    /**
+     * Copy constructor
      * @param beanPath
      */
     public BeanPath(BeanPath beanPath) {
         beanPathElementList.addAll(beanPath.beanPathElementList);
     }
+
 
     public BeanPath(String beanPathStr, int... indices) {
         beanPathStr = replacePlaceholders(beanPathStr, indices);
@@ -34,6 +45,22 @@ public class BeanPath implements Comparable<BeanPath> {
         beanPathElementList.add(beanPathElement);
         return this;
     }
+
+
+    public BeanPathElement head() {
+        return (beanPathElementList.size() == 0)? null: beanPathElementList.get(0);
+    }
+
+
+    public BeanPath tail() {
+        if (beanPathElementList.size() == 0) return this;
+        final BeanPath result = new BeanPath();
+        for (int i = 0; i < beanPathElementList.size(); i++) {
+            if (i > 0) result.addBeanPathElement(beanPathElementList.get(i));
+        }
+        return result;
+    }
+
 
     protected String replacePlaceholders(final String beanPathStr, int... indices) {
         String result = beanPathStr;
