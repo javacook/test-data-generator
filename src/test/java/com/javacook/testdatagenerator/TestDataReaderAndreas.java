@@ -1,10 +1,7 @@
 package com.javacook.testdatagenerator;
 
-import com.javacook.easyexcelaccess.ExcelCoordinate;
-import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
-import com.javacook.testdatagenerator.excelreader.BeanPathCalculator;
-import com.javacook.testdatagenerator.excelreader.MyExcelAccessor;
 import com.javacook.testdatagenerator.testdatamodel.BeanPath;
+import com.javacook.testdatagenerator.testdatamodel.BeanPathElement;
 import com.javacook.testdatagenerator.testdatamodel.BeanPathTree;
 
 import java.io.IOException;
@@ -15,28 +12,17 @@ import java.io.IOException;
 public class TestDataReaderAndreas {
 
     public static void main(String[] args) throws IOException {
-        final BeanPathTree beanPathTree = new BeanPathTree();
+        final TestDataReader testDataReader0 = new TestDataReader("AndreasDataForJSON.xls", "C", "A");
+        final BeanPathTree beanPathTree0 = testDataReader0.getBeanPathTree(0);
+        System.out.println(beanPathTree0.toJSON());
 
-        final MyExcelAccessor excelAccessor = new MyExcelAccessor("AndreasDataForJSON.xls");
 
-        final BeanPathCalculator beanPathCalculator = new BeanPathCalculator(excelAccessor, 2, 0);
-        new ExcelCoordinateSequencer()
-                .from(new ExcelCoordinate("C",2))
-                .to(new ExcelCoordinate("D", 4))
-                .forEach(coord -> {
-                    final String expected = (String)excelAccessor.readCell(0, coord);
-                    if (expected != null) {
-                        final BeanPath beanPath = beanPathCalculator.beanPath(0, coord);
-//                        System.out.println(beanPath);
-                        beanPathTree.put(beanPath.toString(), expected);
-                    }
-                });
-
-        for (BeanPath beanPath : beanPathTree.keySet()) {
-            System.out.println(beanPath + " -> " + beanPathTree.get(beanPath));
+        final TestDataReader testDataReader1 = new TestDataReader("AndreasDataForJSON.xls", "A", "A");
+        final BeanPathTree beanPathTree1 = testDataReader1.getBeanPathTree(1);
+        for (BeanPathElement subTreeRoot: beanPathTree1.subtreeRoots()) {
+            final BeanPathTree subtree = beanPathTree1.subtree(subTreeRoot);
+            System.out.println(subtree.toJSON());
         }
-
-        System.out.println(beanPathTree.toJSON());
     }
 
 }
