@@ -64,7 +64,7 @@ public class TestDataReader {
                 .from(new ExcelCoordinate(headStartCol, DATA_START_ROW))
                 .to(new ExcelCoordinate(excelAccessor.noCols(sheet), excelAccessor.noRows(sheet)))
                 .forEach(coord -> {
-                    final String value = (String)excelAccessor.readCell(sheet, coord);
+                    final Object value = excelAccessor.readCell(sheet, coord);
                     if (value != null) {
                         final BeanPath beanPath = beanPathCalculator.beanPath(sheet, coord);
                         if (NIL_MARKERS.contains(value)) {
