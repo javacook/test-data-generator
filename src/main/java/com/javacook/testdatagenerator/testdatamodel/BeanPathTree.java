@@ -271,7 +271,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
             else {
                 BeanPathElement subTreeRoot = (BeanPathElement)elemOrArray;
                 final BeanPathTree subtree = subtree(subTreeRoot);
-                if (subtree.isEmpty()) {ø
+                if (subtree.isEmpty()) {
                     final Object value = get(new BeanPath(subTreeRoot));
                     jsonObject.put(key, value == NIL? null : value);
                 }
