@@ -1,6 +1,5 @@
 package com.javacook.testdatagenerator.testdatamodel;
 
-import org.apache.commons.collections4.MultiValuedMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -261,7 +260,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                     final BeanPathTree subtree = subtree(subTreeRoot);
                     if (subtree.isEmpty()) {
                         final Object value = get(new BeanPath(subTreeRoot));
-                        jsonArray.add(value);
+                        jsonArray.add(value == NIL? null : value);
                     }
                     else {
                         jsonArray.add(subtree.toJSON());
@@ -272,9 +271,9 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
             else {
                 BeanPathElement subTreeRoot = (BeanPathElement)elemOrArray;
                 final BeanPathTree subtree = subtree(subTreeRoot);
-                if (subtree.isEmpty()) {
+                if (subtree.isEmpty()) {ø
                     final Object value = get(new BeanPath(subTreeRoot));
-                    jsonObject.put(key, value);
+                    jsonObject.put(key, value == NIL? null : value);
                 }
                 else {
                     jsonObject.put(key, subtree.toJSON());
