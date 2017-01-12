@@ -106,7 +106,7 @@ public class BeanPathCalculator {
                     case 1:
                         return null;
                     default:
-                        throw new IllegalExelFormatException("The columns consisting stricty of single name parts " +
+                        throw new IllegalExelFormatException("The columns consisting strictly of 'single name parts' " +
                                 "have different sizes (no of entries): " + countNonEmptyCells.size() +
                                 ". Columns with single elements: " + subHeaderOnlyWithSingles);
                 }
