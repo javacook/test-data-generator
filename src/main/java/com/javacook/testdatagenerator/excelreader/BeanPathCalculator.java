@@ -129,7 +129,7 @@ public class BeanPathCalculator {
                     case 1:
                         return representative;
                     default:
-                        throw new IllegalExelFormatException("The columns consisting strictly of single name parts " +
+                        throw new IllegalExelFormatException("The columns consisting strictly of 'single name parts' " +
                                 "contain elements located at different rows: " + rowNumbers +
                                 ". Columns with single elements: " + subHeaderOnlyWithSingles);
                 }
