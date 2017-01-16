@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -13,8 +14,8 @@ import java.util.*;
 public class BeanPathTree extends TreeMap<BeanPath, Object> {
 
     public final static Object NIL = new Object() {
-      @Override
-      public String toString() { return "NIL";}
+        @Override
+        public String toString() { return "NIL";}
     };
 
     public BeanPathTree() {
@@ -260,7 +261,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                     final BeanPathTree subtree = subtree(subTreeRoot);
                     if (subtree.isEmpty()) {
                         final Object value = get(new BeanPath(subTreeRoot));
-                        jsonArray.add(value == NIL? null : value);
+                        jsonArray.add(jsonRenderer(value));
                     }
                     else {
                         jsonArray.add(subtree.toJSON());
@@ -273,7 +274,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                 final BeanPathTree subtree = subtree(subTreeRoot);
                 if (subtree.isEmpty()) {
                     final Object value = get(new BeanPath(subTreeRoot));
-                    jsonObject.put(key, value == NIL? null : value);
+                    jsonObject.put(key, jsonRenderer(value));
                 }
                 else {
                     jsonObject.put(key, subtree.toJSON());
@@ -283,6 +284,25 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
         return jsonObject;
     }
 
+    public static final String JSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
+    public static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat(JSON_DATE_FORMAT) {{
+                setTimeZone(TimeZone.getTimeZone("UTC"));
+            }};
+
+    protected Object jsonRenderer(Object excelCell) {
+        if (excelCell == NIL) return null;
+        if (excelCell instanceof Date) {
+            return DATE_FORMAT.format((Date)excelCell);
+        }
+        return excelCell;
+    }
+
+
+
+    /*-----------------------------------------------------------------------------------*\
+     * main                                                                              *
+    \*-----------------------------------------------------------------------------------*/
 
     public static void main(String[] args) {
         BeanPathTree bpt = new BeanPathTree();
@@ -299,7 +319,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
         bpt.put("temp[0]", 123);
         bpt.put("temp[1]", 456);
         bpt.put("temp[2]", 789);
-
+        bpt.put("datum", new Date());
 
 //        final NavigableMap<BeanPath, Object> map = bpt.subMap(
 //                new BeanPath("kunde.vorname[0]"), true,
@@ -312,11 +332,11 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
 //        for (BeanPathElement subtreeRoot : subtreeRoots) {
 //            System.out.println(bpt.subtree(subtreeRoot));
 //        }
-        final BeanPathElement next = bpt.subtreeRoots().iterator().next();
-        final BeanPathTree subtree = bpt.subtree(next);
-        System.out.println(subtree);
-        final BeanPathElement next1 = subtree.subtreeRoots().iterator().next();
-        final BeanPathTree subtree1 = subtree.subtree(next1);
+//        final BeanPathElement next = bpt.subtreeRoots().iterator().next();
+//        final BeanPathTree subtree = bpt.subtree(next);
+//        System.out.println(subtree);
+//        final BeanPathElement next1 = subtree.subtreeRoots().iterator().next();
+//        final BeanPathTree subtree1 = subtree.subtree(next1);
 //        final BeanPathElement next2 = subtree1.subtreeRoots().iterator().next();
 //        final BeanPathTree subtree2 = subtree1.subtree(next2);
 
