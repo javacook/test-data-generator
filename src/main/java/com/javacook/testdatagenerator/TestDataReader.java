@@ -78,4 +78,12 @@ public class TestDataReader {
         return beanPathTree;
     }
 
+    public long noRows(int sheet) {
+        return excelAccessor.noRows(sheet);
+    }
+
+    public long noCols(int sheet) {
+        return excelAccessor.noCols(sheet);
+    }
+
 }
