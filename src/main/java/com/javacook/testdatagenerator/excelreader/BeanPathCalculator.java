@@ -16,23 +16,42 @@ import java.util.*;
 public class BeanPathCalculator {
 
     private MyExcelAccessor excelAccessor;
-    private final int headerStartIndex;
-    private final int oidIndex;
+    private int headerStartIndex = 0;
+    private Integer headerEndIndex;
+    private int dataStartIndex = 1;
+    private Integer dataEndIndex;
+    private Integer oidIndex;
 
-    /**
-     * Constructor
-     * @param excelAccessor
-     * @param headerStartIndex staring with 0
-     * @param oidIndex starting with 0
-     */
-    public BeanPathCalculator(MyExcelAccessor excelAccessor, int headerStartIndex, int oidIndex) {
-        Validate.isTrue(excelAccessor != null, "Argument 'excelAccessor' is null.");
+    protected void setHeaderStartIndex(int headerStartIndex) {
         Validate.isTrue(headerStartIndex >= 0, "Argument 'headerStartIndex' must be non-negative.");
-        Validate.isTrue(oidIndex >= 0, "Argument 'oidIndex' must be non-negative.");
-
-        this.excelAccessor = excelAccessor;
         this.headerStartIndex = headerStartIndex;
+    }
+
+    protected void setHeaderEndIndex(int headerEndIndex) {
+        Validate.isTrue(headerEndIndex >= headerStartIndex, "Argument 'headerEndIndex' must be greater than 'headerStartIndex'.");
+        this.headerEndIndex = headerEndIndex;
+    }
+
+    protected void setDataStartIndex(int dataStartIndex) {
+        Validate.isTrue(dataStartIndex >= 0, "Argument 'dataStartIndex' must be non-negative.");
+        this.dataStartIndex = dataStartIndex;
+    }
+
+    protected void setDataEndIndex(int dataEndIndex) {
+        Validate.isTrue(dataEndIndex >= dataStartIndex, "Argument 'dataEndIndex' must be greater than 'dataStartIndex'.");
+        this.dataEndIndex = dataEndIndex;
+    }
+
+    protected void setOidIndex(int oidIndex) {
+        Validate.isTrue(oidIndex >= 0, "Argument 'oidIndex' must be non-negative.");
         this.oidIndex = oidIndex;
+    }
+
+
+    public BeanPathCalculator(MyExcelAccessor excelAccessor, int headerStartIndex) {
+        Validate.isTrue(excelAccessor != null, "Argument 'exelAccessor' is null.");
+        this.excelAccessor = excelAccessor;
+        setHeaderStartIndex(headerStartIndex);
     }
 
     /**
@@ -41,6 +60,7 @@ public class BeanPathCalculator {
      * @return The OID taken from the OID column for the excel element at <code>coord</code>
      */
     public Object oid(int sheet, CoordinateInterface coord) {
+        Validate.isTrue(oidIndex != null, "The oid index is not set. Please use another constructor.");
         Validate.isTrue(sheet >= 0, "Argument 'sheet' must be non-negative.");
         Validate.isTrue(coord != null, "Argument 'coord' is null.");
         Validate.isTrue(coord.x() >= 0, "The value of 'coord.x' must be non-negative.");
@@ -58,12 +78,17 @@ public class BeanPathCalculator {
         Validate.isTrue(coord.y() > 0, "The value of 'coord.y' must be positive.");
 
         if (excelAccessor.readCell(sheet, coord) == null) return null;
-        final Header header = excelAccessor.header(sheet, headerStartIndex);
+        final Header header = excelAccessor.header(sheet, headerStartIndex, headerEndIndex);
         return beanPath(header, sheet, coord);
     }
 
 
     /**
+     * Eine Parent-Koordinate ist eine (nicht eindeutig bestimmte) Kooridinate eines direkten
+     * Eltern-Objekts in der Excel-Tabelle. Falls ich zu einem Array gehoere, ist das dasjenige Element,
+     * das das Array enthaelt. Ich kann aber auch ein einfaches Unterobjekt sein (bei kunde.adresse waere
+     * das adresse). In diesem Fall ist kunde das Eltern-Objekt, und diese Methode liefert einfach die
+     * Korrdinate eines bel. Kunden-Attributs, dessen Adresse ich bin.
      * <pre>
      * 1) Ich bin in einer Nur-Single-Spalte => null
      * 2) Meine Spalte enthaelt genau ein Multi-Element =>
@@ -107,7 +132,7 @@ public class BeanPathCalculator {
                         return null;
                     default:
                         throw new IllegalExelFormatException("The columns consisting strictly of 'single name parts' " +
-                                "have different sizes (no of entries): " + countNonEmptyCells.size() +
+                                "have different sizes (no of entries): " + countNonEmptyCells +
                                 ". Columns with single elements: " + subHeaderOnlyWithSingles);
                 }
             }
@@ -148,7 +173,7 @@ public class BeanPathCalculator {
     }
 
     List<Integer> indices(int sheet, CoordinateInterface coord)  {
-        final Header header = excelAccessor.header(sheet, headerStartIndex);
+        final Header header = excelAccessor.header(sheet, headerStartIndex, headerEndIndex);
         return indices(header, sheet, coord);
     }
 
@@ -192,7 +217,7 @@ public class BeanPathCalculator {
 
     Coordinate oidCoordinate(int sheet, CoordinateInterface coord) {
         if (excelAccessor.readCell(sheet, coord) == null) return null;
-        final Header header = excelAccessor.header(sheet, headerStartIndex);
+        final Header header = excelAccessor.header(sheet, headerStartIndex, headerEndIndex);
         final List<Integer> indices = indices(header, sheet, coord);
         return excelAccessor.findNthNonEmptyCellInColumn(sheet, oidIndex, indices.get(0)+1);
     }
@@ -202,7 +227,9 @@ public class BeanPathCalculator {
 
     public static void main(String[] args) throws Exception {
         final MyExcelAccessor excelAccessor = new MyExcelAccessor("Inkasso.xls");
-        final BeanPathCalculator beanPathCalculator = new BeanPathCalculator(excelAccessor, 2, 1);
+        final BeanPathCalculator beanPathCalculator = new BeanPathCalculator(excelAccessor, 2) {{
+            setOidIndex(2);
+        }};
         ExcelCoordinateSequencer sequencer = new ExcelCoordinateSequencer();
         sequencer
                 .from(new ExcelCoordinate("C",2))
