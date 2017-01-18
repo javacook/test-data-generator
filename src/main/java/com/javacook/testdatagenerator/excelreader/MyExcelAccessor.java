@@ -35,17 +35,21 @@ public class MyExcelAccessor extends ExcelCoordinateAccessor {
      * Konstruiert einen Header der Excel-Tabelle betrachtet ab Spalte <code>startColumn</code>
      * (eingeschlossen).
      * @param sheet Blatt-Nummer (0,...)
-     * @param startColumn Spalte, ab der der
+     * @param startColumn Spalte, ab der der Header betrachtet werden soll
+     * @param endColumn (optional) maximale Spalte, bis zu der der Header betrachtet werden soll.
      * @return {@link Header} Header der Excel-Tabelle
      */
-    public Header header(final int sheet, final int startColumn) {
+    public Header header(final int sheet, final int startColumn, Integer endColumn) {
         Validate.isTrue(sheet >= 0, "Argument 'sheet' must be non-negativ");
         Validate.isTrue(startColumn >= 0, "Argument 'startColumn' must be non-negativ");
+        Validate.isTrue(endColumn == null || endColumn >= startColumn,
+                "Argument 'endColumn' must be greater than startColumn.");
 
         final Header header = new Header();
         String currHeaderStr;
         int col = startColumn;
-        while ((currHeaderStr = readCell(sheet, col, 0, String.class)) != null) {
+        while ( (endColumn == null || col <= endColumn) &&
+                (currHeaderStr = readCell(sheet, col, 0, String.class)) != null) {
             header.addHeaderElement(new HeaderElement(col++, currHeaderStr));
         }
         return header;
