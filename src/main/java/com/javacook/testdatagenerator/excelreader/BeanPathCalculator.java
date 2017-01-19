@@ -6,6 +6,10 @@ import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
 import com.javacook.testdatagenerator.testdatamodel.BeanPath;
 import com.javacook.testdatagenerator.testdatamodel.BeanPathElement;
+import com.sun.org.apache.xalan.internal.xsltc.dom.MultiValuedNodeHeapIterator;
+import com.sun.tools.corba.se.idl.InterfaceGen;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.Validate;
 
 import java.util.*;
@@ -52,6 +56,11 @@ public class BeanPathCalculator {
         Validate.isTrue(excelAccessor != null, "Argument 'exelAccessor' is null.");
         this.excelAccessor = excelAccessor;
         setHeaderStartIndex(headerStartIndex);
+    }
+
+    public BeanPathCalculator(MyExcelAccessor excelAccessor, int headerStartIndex, int oidIndex) {
+        this(excelAccessor, headerStartIndex);
+        setOidIndex(oidIndex);
     }
 
     /**
@@ -118,12 +127,13 @@ public class BeanPathCalculator {
         switch (headerElementForColumn.noOfMultiElements()) {
             case 0: {
                 final Header subHeaderOnlyWithSingles = header.subHeaderOnlyWithSingles();
-                Set<Integer> countNonEmptyCells = new HashSet<>();
+                MultiValuedMap<Integer, Integer> colsForCountNonEmptyCells = new ArrayListValuedHashMap<>();
                 for (HeaderElement currHeaderElement : subHeaderOnlyWithSingles) {
                     Coordinate runningCoord = new Coordinate(currHeaderElement.column, coord.y());
-                    countNonEmptyCells.add(excelAccessor.countNonEmptyCells(sheet, runningCoord));
+                    final int count = excelAccessor.countNonEmptyCells(sheet, runningCoord);
+                    colsForCountNonEmptyCells.put(count, currHeaderElement.column);
                 }
-                switch (countNonEmptyCells.size()) {
+                switch (colsForCountNonEmptyCells.keySet().size()) {
                     case 0:
                         // Einerseits gibt's ein Element (headerElementForColumn) mit nur Singles, anderersiets
                         // soll die Menge der Spalten, die nur aus Singles bestehen, 0 sein.
@@ -132,8 +142,7 @@ public class BeanPathCalculator {
                         return null;
                     default:
                         throw new IllegalExelFormatException("The columns consisting strictly of 'single name parts' " +
-                                "have different sizes (no of entries): " + countNonEmptyCells +
-                                ". Columns with single elements: " + subHeaderOnlyWithSingles);
+                                "have different sizes (no of entries): " + colsForCountNonEmptyCells);
                 }
             }
             case 1: {
