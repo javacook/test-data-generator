@@ -6,8 +6,6 @@ import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
 import com.javacook.testdatagenerator.testdatamodel.BeanPath;
 import com.javacook.testdatagenerator.testdatamodel.BeanPathElement;
-import com.sun.org.apache.xalan.internal.xsltc.dom.MultiValuedNodeHeapIterator;
-import com.sun.tools.corba.se.idl.InterfaceGen;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.Validate;
