@@ -1,5 +1,6 @@
 package com.javacook.testdatagenerator;
 
+import com.javacook.coordinate.CoordinateInterface;
 import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
 import com.javacook.easyexcelaccess.ExcelUtil;
@@ -27,8 +28,8 @@ public class TestDataReader {
 
     private final BeanPathCalculator beanPathCalculator;
     private final MyExcelAccessor excelAccessor;
-    private final int headStartCol;
-    private final int oidCol;
+    private final int headerStartCol;
+    private int oidCol;
 
     /**
      * @param excelFile
@@ -37,32 +38,41 @@ public class TestDataReader {
      * @throws IOException
      */
     public TestDataReader(File excelFile, String headerStartColumn, String oidColumn) throws IOException {
-        headStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
         oidCol = ExcelUtil.calculateColNo(oidColumn); // starting with 1
         this.excelAccessor = new MyExcelAccessor(excelFile);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headStartCol-1, oidCol-1);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1, oidCol-1);
     }
 
     public TestDataReader(String resourceName, String headerStartColumn, String oidColumn) throws IOException {
-        headStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
         oidCol = ExcelUtil.calculateColNo(oidColumn); // starting with 1
         this.excelAccessor = new MyExcelAccessor(resourceName);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headStartCol-1, oidCol-1);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1, oidCol-1);
+    }
+
+    public TestDataReader(File excelFile, String headerStartColumn) throws IOException {
+        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        this.excelAccessor = new MyExcelAccessor(excelFile);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1);
+    }
+
+    public TestDataReader(String resourceName, String headerStartColumn) throws IOException {
+        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        this.excelAccessor = new MyExcelAccessor(resourceName);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1);
     }
 
 
-    /**
-     *
-     * @param sheet starting with 0
-     * @return
-     * @throws IOException
-     */
-    public BeanPathTree getBeanPathTree(int sheet) throws IOException {
+    public BeanPathTree getBeanPathTree(int sheet,
+                                        CoordinateInterface leftUpperCorner,
+                                        CoordinateInterface rightLowerCorner) throws IOException {
+
         final BeanPathTree beanPathTree = new BeanPathTree();
 
         new ExcelCoordinateSequencer()
-                .from(new ExcelCoordinate(headStartCol, DATA_START_ROW))
-                .to(new ExcelCoordinate(excelAccessor.noCols(sheet), excelAccessor.noRows(sheet)))
+                .from(leftUpperCorner)
+                .to(new ExcelCoordinate(rightLowerCorner))
                 .forEach(coord -> {
                     final Object value = excelAccessor.readCell(sheet, coord);
                     if (value != null) {
@@ -78,11 +88,25 @@ public class TestDataReader {
         return beanPathTree;
     }
 
-    public long noRows(int sheet) {
+
+    /**
+     *
+     * @param sheet starting with 0
+     * @return
+     * @throws IOException
+     */
+    public BeanPathTree getBeanPathTree(int sheet) throws IOException {
+        return getBeanPathTree(sheet,
+                new ExcelCoordinate(headerStartCol, DATA_START_ROW),
+                new ExcelCoordinate(noCols(sheet), noRows(sheet)));
+    }
+
+
+    public int noRows(int sheet) {
         return excelAccessor.noRows(sheet);
     }
 
-    public long noCols(int sheet) {
+    public int noCols(int sheet) {
         return excelAccessor.noCols(sheet);
     }
 
