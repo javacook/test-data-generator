@@ -102,7 +102,8 @@ public class MyExcelAccessor extends ExcelCoordinateAccessor {
 
         int counter = 0;
         for (int y = minRow; y <= coord.y(); y++) {
-            if (readCell(sheet, coord.x(), y) != null) counter++;
+            final Object cellContent = readCell(sheet, coord.x(), y);
+            if (cellContent != null) counter++;
         }
         return counter;
     }

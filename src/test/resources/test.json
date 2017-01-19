@@ -1,0 +1,389 @@
+{
+  "creditorMemberId": "441987654",
+  "costs": [
+    {
+      "amount": {
+        "currency": "EUR",
+        "value": 23.45
+      },
+      "valueDate": Fri
+      May
+      23
+      0
+      2: 0
+      0: 0
+      0
+      CEST
+      2014,
+      "type": "BANKING_COSTS"
+    },
+    {
+      "amount": {
+        "currency": "EUR",
+        "value": 280.45
+      },
+      "valueDate": Sat
+      Nov
+      0
+      8
+      0
+      1: 0
+      0: 0
+      0
+      CET
+      2014,
+      "type": "DUNNING_CHARGE"
+    },
+    {
+      "amount": {
+        "currency": "EUR",
+        "value": 34839
+      },
+      "valueDate": Fri
+      Feb
+      0
+      1
+      0
+      1: 0
+      0: 0
+      0
+      CET
+      2013,
+      "type": "INVESTIGATION_COSTS"
+    },
+    {
+      "amount": {
+        "currency": "EUR",
+        "value": 79.45
+      },
+      "valueDate": Thu
+      Feb
+      12
+      0
+      1: 0
+      0: 0
+      0
+      CET
+      2015,
+      "type": "REJECT_DEBIT_COSTS"
+    },
+    {
+      "amount": {
+        "currency": "EUR",
+        "value": 123.456
+      },
+      "valueDate": Tue
+      Aug
+      23
+      0
+      2: 0
+      0: 0
+      0
+      CEST
+      2016,
+      "type": "REPORT_COSTS"
+    }
+  ],
+  "documents": [
+    {
+      "fileName": "file-name",
+      "content": "Content"
+    },
+    {
+      "fileName": "datei2",
+      "content": "Inhalt"
+    },
+    {
+      "fileName": "Datei_3",
+      "content": "Irgendwas"
+    }
+  ],
+  "referenceNumber": "KVM123098",
+  "payments": [
+    {
+      "amount": 234.34,
+      "valueDate": Tue
+      Sep
+      13
+      0
+      2: 0
+      0: 0
+      0
+      CEST
+      2016,
+      "paymentType": "CREDIT"
+    },
+    {
+      "amount": 1009.23,
+      "valueDate": Thu
+      Jul
+      21
+      0
+      2: 0
+      0: 0
+      0
+      CEST
+      2016,
+      "paymentType": "PAYMENT"
+    }
+  ],
+  "debtors": [
+    {
+      "privatePerson": {
+        "birthday": Thu
+        Mar
+        13
+        0
+        1: 0
+        0: 0
+        0
+        CET
+        1969,
+        "surname": "Rallenberg",
+        "givenName": "Peter",
+        "salutation": "MR",
+        "birthName": "Gröner"
+      },
+      "address": {
+        "country": "DE",
+        "zipCode": "58730",
+        "houseNumberSuffix": null,
+        "city": "Fröndenberg\/Ruhr",
+        "addressType": "DELIVERY_ADDRESS",
+        "street": "Brückenstr.",
+        "district": "Frömern",
+        "houseNumber": 5,
+        "postOfficeBoxNumber": null
+      },
+      "communicationData": {
+        "phone": {
+          "areaCode": "231",
+          "extension": "0",
+          "countryCode": "49",
+          "subscriberNumber": "2348"
+        },
+        "mobile": {
+          "areaCode": "178",
+          "extension": null,
+          "countryCode": "49",
+          "subscriberNumber": "12398712"
+        },
+        "fax": {
+          "areaCode": "231",
+          "extension": "800",
+          "countryCode": "49",
+          "subscriberNumber": "2348"
+        },
+        "email": "paul@creditreform.de"
+      },
+      "bankingDetails": [
+        {
+          "iban": "DE58440501990239472973",
+          "bic": "DORTDE33XXX"
+        }
+      ],
+      "company": {
+        "businessName": null
+      }
+    },
+    {
+      "privatePerson": {
+        "birthday": null,
+        "surname": null,
+        "givenName": null,
+        "salutation": null,
+        "birthName": null
+      },
+      "address": {
+        "country": "DE",
+        "zipCode": "44267",
+        "houseNumberSuffix": null,
+        "city": "Dortmund",
+        "addressType": "POST_OFFICE_BOX",
+        "street": null,
+        "district": null,
+        "houseNumber": null,
+        "postOfficeBoxNumber": "1238789"
+      },
+      "communicationData": {
+        "phone": {
+          "areaCode": "231",
+          "extension": "1",
+          "countryCode": "49",
+          "subscriberNumber": "34839"
+        },
+        "mobile": {
+          "areaCode": null,
+          "extension": null,
+          "countryCode": null,
+          "subscriberNumber": null
+        },
+        "fax": {
+          "areaCode": null,
+          "extension": null,
+          "countryCode": null,
+          "subscriberNumber": null
+        },
+        "email": "info@fraukenheim.de"
+      },
+      "bankingDetails": [
+        {
+          "iban": "DE58440501990134892384",
+          "bic": "DORTDE33XXX"
+        }
+      ],
+      "company": {
+        "businessName": "Fraukenheim AG"
+      }
+    },
+    {
+      "privatePerson": {
+        "birthday": null,
+        "surname": null,
+        "givenName": null,
+        "salutation": null,
+        "birthName": null
+      },
+      "address": {
+        "country": "DE",
+        "zipCode": "23843",
+        "houseNumberSuffix": null,
+        "city": "Hamburg",
+        "addressType": "POSTCODE",
+        "street": null,
+        "district": null,
+        "houseNumber": null,
+        "postOfficeBoxNumber": null
+      },
+      "communicationData": {
+        "phone": {
+          "areaCode": null,
+          "extension": null,
+          "countryCode": null,
+          "subscriberNumber": null
+        },
+        "mobile": {
+          "areaCode": null,
+          "extension": null,
+          "countryCode": null,
+          "subscriberNumber": null
+        },
+        "fax": {
+          "areaCode": "040",
+          "extension": "232",
+          "countryCode": "49",
+          "subscriberNumber": "4584"
+        },
+        "email": null
+      },
+      "bankingDetails": [
+        {
+          "iban": null,
+          "bic": null
+        }
+      ],
+      "company": {
+        "businessName": "Donnerbonn GbR"
+      }
+    }
+  ],
+  "receivables": [
+    {
+      "interestData": {
+        "rate": 43.23,
+        "type": "FIXED",
+        "startDate": Sat
+        Jul
+        0
+        4
+        0
+        2: 0
+        0: 0
+        0
+        CEST
+        2015
+      },
+      "dunningDate": Tue
+      Apr
+      0
+      3
+      0
+      2: 0
+      0: 0
+      0
+      CEST
+      2012,
+      "amount": {
+        "currency": "EUR",
+        "value": 432.45
+      },
+      "contractDate": Mon
+      Feb
+      0
+      1
+      0
+      1: 0
+      0: 0
+      0
+      CET
+      2010,
+      "rentalPropertyData": {
+        "address": {
+          "country": null,
+          "zipCode": null,
+          "houseNumberSuffix": null,
+          "city": null,
+          "street": null,
+          "district": null,
+          "houseNumber": null
+        }
+      },
+      "invoiceNumber": "Eine Rechnungsnummer",
+      "receivableReason": "ANZEIGE_IN_ZEITUNG",
+      "performancePeriod": {
+        "endDate": Thu
+        May
+        17
+        0
+        2: 0
+        0: 0
+        0
+        CEST
+        2012,
+        "startDate": Sat
+        Jan
+        0
+        7
+        0
+        1: 0
+        0: 0
+        0
+        CET
+        2012
+      },
+      "invoiceDate": Wed
+      Mar
+      0
+      2
+      0
+      1: 0
+      0: 0
+      0
+      CET
+      2011,
+      "supplyData": {
+        "meterAddress": {
+          "country": "DE",
+          "zipCode": "44267",
+          "houseNumberSuffix": "B-C",
+          "city": "Dortmund",
+          "street": "Limbecker Postweg",
+          "district": "Holzen",
+          "houseNumber": 34
+        },
+        "meterNumber": "34897234C"
+      }
+    }
+  ],
+  "receivablesDescription": "Will mein Geld zurück"
+}
