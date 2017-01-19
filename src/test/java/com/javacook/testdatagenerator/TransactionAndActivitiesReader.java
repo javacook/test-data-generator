@@ -1,6 +1,7 @@
 package com.javacook.testdatagenerator;
 
 
+import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.testdatagenerator.testdatamodel.BeanPathElement;
 import com.javacook.testdatagenerator.testdatamodel.BeanPathTree;
 import org.json.simple.JSONObject;
@@ -13,13 +14,12 @@ import java.io.IOException;
  */
 public class TransactionAndActivitiesReader {
 
-    final static String FILE_PATH = "/mnt/material/Development/CrefoPortal/testdaten/testdaten-generator/output/";
-
+    final static String FILE_PATH = "/Users/vollmer/Documents/Entwicklung/Software/test-data-generator/output/";
 
     public static void main(String[] args) throws IOException {
 
-        final TestDataReader testDataReader1 = new TestDataReader("TransactionsAndActivities.xls", "A", "A");
-        final BeanPathTree beanPathTree0 = testDataReader1.getBeanPathTree(0);
+        final TestDataReader testDataReader1 = new TestDataReader("TransactionsAndActivitiesBack.xls", "A", "A");
+//        final BeanPathTree beanPathTree0 = testDataReader1.getBeanPathTree(0);
 //        int i = 1;
 //        for (BeanPathElement subTreeRoot: beanPathTree0.subtreeRoots()) {
 //            final BeanPathTree subtree = beanPathTree0.subtree(subTreeRoot);
@@ -29,7 +29,10 @@ public class TransactionAndActivitiesReader {
 //            writeToFile(jsonObject, FILE_PATH + "activities/activity_" + i++ + ".json");
 //        }
 
-        final BeanPathTree beanPathTree1 = testDataReader1.getBeanPathTree(1);
+
+        final BeanPathTree beanPathTree1 = testDataReader1.getBeanPathTree(0,
+                new ExcelCoordinate(1,2),
+                new ExcelCoordinate("AP", 291));
         int j = 1;
         for (BeanPathElement subTreeRoot: beanPathTree1.subtreeRoots()) {
             final BeanPathTree subtree = beanPathTree1.subtree(subTreeRoot);
