@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class TestDataReader {
 
-    public final int DATA_START_ROW = 2;
+    public final int DEFAULT_DATA_START_ROW = 2;
     public final Set<String> NIL_MARKERS = new HashSet() {{
         add("NIL");
         add("NULL");
@@ -28,7 +28,7 @@ public class TestDataReader {
 
     private final BeanPathCalculator beanPathCalculator;
     private final MyExcelAccessor excelAccessor;
-    private final int headerStartCol;
+    private int headerStartCol;
     private int oidCol;
 
     /**
@@ -64,6 +64,7 @@ public class TestDataReader {
     }
 
 
+
     public BeanPathTree getBeanPathTree(int sheet,
                                         CoordinateInterface leftUpperCorner,
                                         CoordinateInterface rightLowerCorner) throws IOException {
@@ -97,7 +98,7 @@ public class TestDataReader {
      */
     public BeanPathTree getBeanPathTree(int sheet) throws IOException {
         return getBeanPathTree(sheet,
-                new ExcelCoordinate(headerStartCol, DATA_START_ROW),
+                new ExcelCoordinate(headerStartCol, DEFAULT_DATA_START_ROW),
                 new ExcelCoordinate(noCols(sheet), noRows(sheet)));
     }
 
