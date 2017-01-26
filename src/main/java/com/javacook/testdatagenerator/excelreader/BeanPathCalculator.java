@@ -179,19 +179,24 @@ public class BeanPathCalculator {
         }
     }
 
-    List<Integer> indices(int sheet, CoordinateInterface coord)  {
+    List<Integer> beanPathIndices(int sheet, CoordinateInterface coord)  {
         final Header header = excelAccessor.header(sheet, headerStartIndex, headerEndIndex);
-        return indices(header, sheet, coord);
+        return beanPathIndices(header, sheet, coord);
     }
 
     /**
-     *
+     * Berechnet die Indices der Multi-Elemente des BeanPaths des Elements an der
+     * Stelle <code>coord</code>. Dazu muss man sukzessive den vertikalen Abstand zum
+     * Parent berechnen. Waehrend der Weg des letzten Elements zu seinem Parent noch
+     * durchgaenging ist, kann es sein, dass der Weg von meinem Parent zu seinem Parent
+     * loechrig ist, d.h. aus leeren Zellen bestehen kann. Daher muss man die Anzahl
+     * der Elemente zum Parent zaehlen, die nicht-leer sind (s. countNonEmptyCellsBetween)
      * @param header
      * @param sheet
      * @param coord
-     * @return A list of parent indices (contains at least one element)
+     * @return A list of bean path indices (contains at least one element)
      */
-    List<Integer> indices(Header header, int sheet, CoordinateInterface coord)  {
+    List<Integer> beanPathIndices(Header header, int sheet, CoordinateInterface coord)  {
         List<Integer> indices = new ArrayList<>();
         CoordinateInterface parentCoordinate;
         while ((parentCoordinate = parentCoordinate(header, sheet, coord)) != null) {
@@ -206,9 +211,16 @@ public class BeanPathCalculator {
     }
 
 
+    /**
+     * Berechnet den Bean-Pfad des Elements an Stelle <code>coord</code>.
+     * @param header
+     * @param sheet
+     * @param coord
+     * @return
+     */
     BeanPath beanPath(Header header, int sheet, CoordinateInterface coord)  {
         final HeaderElement headerElement = header.headerElementForColumn(coord.x());
-        final List<Integer> indices = indices(header, sheet, coord);
+        final List<Integer> indices = beanPathIndices(header, sheet, coord);
         BeanPath result = new BeanPath();
         int index = 0;
         final String sheetName = excelAccessor.sheetName(sheet);
@@ -225,11 +237,9 @@ public class BeanPathCalculator {
     Coordinate oidCoordinate(int sheet, CoordinateInterface coord) {
         if (excelAccessor.readCell(sheet, coord) == null) return null;
         final Header header = excelAccessor.header(sheet, headerStartIndex, headerEndIndex);
-        final List<Integer> indices = indices(header, sheet, coord);
+        final List<Integer> indices = beanPathIndices(header, sheet, coord);
         return excelAccessor.findNthNonEmptyCellInColumn(sheet, oidIndex, indices.get(0)+1);
     }
-
-
 
 
     public static void main(String[] args) throws Exception {

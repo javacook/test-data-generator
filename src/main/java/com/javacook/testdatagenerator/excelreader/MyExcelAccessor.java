@@ -33,7 +33,8 @@ public class MyExcelAccessor extends ExcelCoordinateAccessor {
 
     /**
      * Konstruiert einen Header der Excel-Tabelle betrachtet ab Spalte <code>startColumn</code>
-     * (eingeschlossen).
+     * bis Spalte <code>endColumn</code> (jeweils eingeschlossen). Die Header reicht maximal bis
+     * zum ersten ELement der Headerzeile, das "null" ist, d.h. das nichts enthaelt.
      * @param sheet Blatt-Nummer (0,...)
      * @param startColumn Spalte, ab der der Header betrachtet werden soll
      * @param endColumn (optional) maximale Spalte, bis zu der der Header betrachtet werden soll.

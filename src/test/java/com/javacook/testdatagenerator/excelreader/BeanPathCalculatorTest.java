@@ -29,7 +29,7 @@ public class BeanPathCalculatorTest {
                 .from(new ExcelCoordinate("C",2))
                 .to(new ExcelCoordinate("J", 11))
                 .forEach(coord -> {
-                    final List<Integer> actual = beanPathCalculator.indices(0, coord);
+                    final List<Integer> actual = beanPathCalculator.beanPathIndices(0, coord);
                     final String expected = (String)excelAccessor.readCell(0, coord);
                     if (expected != null) {
                         Assert.assertEquals("" + coord, ""+expected , ""+actual);
@@ -48,7 +48,7 @@ public class BeanPathCalculatorTest {
                 .forRow(3).fromCol("A").toCol("B")
                 .forEach(coord -> {
                     try {
-                        beanPathCalculator.indices(1, coord);
+                        beanPathCalculator.beanPathIndices(1, coord);
                         Assert.fail("Expected exception not occured: " + coord);
                     } catch (IllegalExelFormatException e) {
                         // expected
@@ -68,7 +68,7 @@ public class BeanPathCalculatorTest {
                 .to(new ExcelCoordinate("B", 4))
                 .forEach(coord -> {
                     try {
-                        beanPathCalculator.indices(2, coord);
+                        beanPathCalculator.beanPathIndices(2, coord);
                         Assert.fail("Expected exception not occured: " + coord);
                     } catch (IllegalExelFormatException e) {
                         // expected
@@ -88,7 +88,7 @@ public class BeanPathCalculatorTest {
                 .forCol("C").fromRow(2).toRow(6)
                 .forEach(coord -> {
                     try {
-                        beanPathCalculator.indices(3, coord);
+                        beanPathCalculator.beanPathIndices(3, coord);
                         Assert.fail("Expected exception not occured: " + coord);
                     } catch (IllegalExelFormatException e) {
                         // expected
