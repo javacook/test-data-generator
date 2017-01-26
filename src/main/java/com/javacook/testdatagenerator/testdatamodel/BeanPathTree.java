@@ -229,8 +229,8 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
 
 
     /**
-     *
-     * @return
+     * Marshalls the tree (structure and data) into a JSON-Object
+     * @return a JSON object structured by means of the tree
      */
     public JSONObject toJSON() {
         if (isEmpty()) return null;
@@ -283,6 +283,7 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
         }
         return jsonObject;
     }
+
 
     public static final String JSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
     public static final SimpleDateFormat DATE_FORMAT =
