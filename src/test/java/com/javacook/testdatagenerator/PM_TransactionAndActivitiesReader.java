@@ -20,5 +20,12 @@ public class PM_TransactionAndActivitiesReader {
             final JSONObject jsonObject = subtree.toJSON();
             System.out.println(jsonObject);
         }
+
+        final BeanPathTree beanPathTree2 = testDataReader1.getBeanPathTree(1);
+        for (BeanPathElement subTreeRoot: beanPathTree2.subtreeRoots()) {
+            final BeanPathTree subtree = beanPathTree2.subtree(subTreeRoot);
+            final JSONObject jsonObject = subtree.toJSON();
+            System.out.println(jsonObject);
+        }
     }
 }
