@@ -1,6 +1,5 @@
 package com.javacook.testdatagenerator;
 
-import com.javacook.coordinate.CoordinateInterface;
 import com.javacook.easyexcelaccess.ExcelCoordinate;
 import com.javacook.easyexcelaccess.ExcelCoordinateSequencer;
 import com.javacook.easyexcelaccess.ExcelUtil;
@@ -15,11 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by vollmer on 21.12.16.
+ * Liest ein Excel-File und erzeugt daraus einen BeanPathTree
  */
 public class TestDataReader {
 
-    public final int DEFAULT_DATA_START_ROW = 2;
+    public final int DATA_START_ROW = 2;
     public final Set<String> NIL_MARKERS = new HashSet() {{
         add("NIL");
         add("NULL");
@@ -28,8 +27,8 @@ public class TestDataReader {
 
     private final BeanPathCalculator beanPathCalculator;
     private final MyExcelAccessor excelAccessor;
-    private int headerStartCol;
-    private int oidCol;
+    private final int headStartCol;
+    private final int oidCol;
 
     /**
      * @param excelFile
@@ -38,43 +37,38 @@ public class TestDataReader {
      * @throws IOException
      */
     public TestDataReader(File excelFile, String headerStartColumn, String oidColumn) throws IOException {
-        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        headStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
         oidCol = ExcelUtil.calculateColNo(oidColumn); // starting with 1
         this.excelAccessor = new MyExcelAccessor(excelFile);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1, oidCol-1);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headStartCol-1, oidCol-1);
     }
 
     public TestDataReader(String resourceName, String headerStartColumn, String oidColumn) throws IOException {
-        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
+        headStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
         oidCol = ExcelUtil.calculateColNo(oidColumn); // starting with 1
         this.excelAccessor = new MyExcelAccessor(resourceName);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1, oidCol-1);
-    }
-
-    public TestDataReader(File excelFile, String headerStartColumn) throws IOException {
-        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
-        this.excelAccessor = new MyExcelAccessor(excelFile);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1);
-    }
-
-    public TestDataReader(String resourceName, String headerStartColumn) throws IOException {
-        headerStartCol = ExcelUtil.calculateColNo(headerStartColumn); // starting with 1
-        this.excelAccessor = new MyExcelAccessor(resourceName);
-        beanPathCalculator = new BeanPathCalculator(excelAccessor, headerStartCol -1);
+        beanPathCalculator = new BeanPathCalculator(excelAccessor, headStartCol-1, oidCol-1);
     }
 
 
-
-    public BeanPathTree getBeanPathTree(int sheet,
-                                        CoordinateInterface leftUpperCorner,
-                                        CoordinateInterface rightLowerCorner) throws IOException {
-
+    /**
+     *
+     * @param sheet starting with 0
+     * @return
+     * @throws IOException
+     */
+    public BeanPathTree getBeanPathTree(int sheet, boolean verbose) throws IOException {
         final BeanPathTree beanPathTree = new BeanPathTree();
-
+        final long[] timeStamps = {System.currentTimeMillis(), 0};
         new ExcelCoordinateSequencer()
-                .from(leftUpperCorner)
-                .to(new ExcelCoordinate(rightLowerCorner))
+                .from(new ExcelCoordinate(headStartCol, DATA_START_ROW))
+                .to(new ExcelCoordinate(excelAccessor.noCols(sheet), excelAccessor.noRows(sheet)))
                 .forEach(coord -> {
+                    timeStamps[1] = System.currentTimeMillis();
+                    if (timeStamps[1] - timeStamps[0] > 333) {
+                        if (verbose) System.out.print('.');
+                        timeStamps[0] = timeStamps[1];
+                    }
                     final Object value = excelAccessor.readCell(sheet, coord);
                     if (value != null) {
                         final BeanPath beanPath = beanPathCalculator.beanPath(sheet, coord);
@@ -89,19 +83,9 @@ public class TestDataReader {
         return beanPathTree;
     }
 
-
-    /**
-     *
-     * @param sheet starting with 0
-     * @return
-     * @throws IOException
-     */
     public BeanPathTree getBeanPathTree(int sheet) throws IOException {
-        return getBeanPathTree(sheet,
-                new ExcelCoordinate(headerStartCol, DEFAULT_DATA_START_ROW),
-                new ExcelCoordinate(noCols(sheet), noRows(sheet)));
+        return getBeanPathTree(sheet, false);
     }
-
 
     public int noRows(int sheet) {
         return excelAccessor.noRows(sheet);
