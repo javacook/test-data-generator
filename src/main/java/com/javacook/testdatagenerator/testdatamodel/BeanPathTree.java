@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by vollmerj on 12.12.16.
+ * Ein Speicher, in den Objekte anhand eines Beanpfades (als Key) abgespeichert und gelesen werden koennen.
  */
 public class BeanPathTree extends TreeMap<BeanPath, Object> {
 
