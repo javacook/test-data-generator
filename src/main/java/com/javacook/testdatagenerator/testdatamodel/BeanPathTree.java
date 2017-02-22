@@ -75,6 +75,16 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
     }
 
 
+    /**
+     * Checks whether i consist only of NIL-Elements
+     */
+    public boolean isNil() {
+        for (BeanPath subBeanPath : keySet()) {
+            if (!isNil(subBeanPath)) return false;
+        }
+        return true;
+    }
+
     private SortedMap<BeanPath, Object> subTreeAsSortedMap(BeanPath beanPath) {
         final String LOWEST_IDENTIFIER = "";
         final String UPPER_BOUND_IDENTIFIER = String.valueOf((char)127); // hoechstes ASCII DEL
@@ -263,7 +273,8 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                         final Object value = get(new BeanPath(subTreeRoot));
                         jsonArray.add(jsonRenderer(value));
                     }
-                    else {
+                    // Subtrees, die nur aus NILs bestehen, sollen nicht hinzugefuegt werden
+                    else if (!subtree.isNil()) {
                         jsonArray.add(subtree.toJSON());
                     }
                 }
@@ -276,14 +287,14 @@ public class BeanPathTree extends TreeMap<BeanPath, Object> {
                     final Object value = get(new BeanPath(subTreeRoot));
                     jsonObject.put(key, jsonRenderer(value));
                 }
-                else {
+                // Subtrees, die nur aus NILs bestehen, sollen nicht hinzugefuegt werden
+                else if (!subtree.isNil()) {
                     jsonObject.put(key, subtree.toJSON());
                 }
             }
         }
         return jsonObject;
     }
-
 
     public static final String JSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
     public static final SimpleDateFormat DATE_FORMAT =
