@@ -9,6 +9,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<parfehh-version>0.10</parfehh-version>
+		<easy-excel-access-version>0.7</easy-excel-access-version>
 	</properties>
 
 	<scm>
@@ -48,7 +50,7 @@
 		<dependency>
 			<groupId>com.javacook</groupId>
 			<artifactId>easy-excel-access</artifactId>
-			<version>0.7</version>
+			<version>${easy-excel-access-version}</version>
 		</dependency>
 
 		<dependency>
@@ -61,7 +63,7 @@
 		<dependency>
 			<groupId>com.javacook</groupId>
 			<artifactId>parfehh-util</artifactId>
-			<version>0.3</version>
+			<version>${parfehh-version}</version>
 		</dependency>
 
 		<dependency>
